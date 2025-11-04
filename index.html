@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Timer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: #0a0a0a;
+            border: 3px solid #cc5500;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(204, 85, 0, 0.3);
+        }
+
+        .description {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #cc5500;
+        }
+
+        .description h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: #cc5500;
+        }
+
+        .description p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #cccccc;
+        }
+
+        .time-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .time-label {
+            font-size: 1.2em;
+            color: #cc5500;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .current-time {
+            font-size: 4em;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+
+        .countdown-section {
+            text-align: center;
+        }
+
+        .countdown-label {
+            font-size: 1.4em;
+            color: #cc5500;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .countdown {
+            font-size: 5em;
+            font-weight: bold;
+            color: #ffffff;
+            font-variant-numeric: tabular-nums;
+            text-shadow: 0 0 20px rgba(204, 85, 0, 0.5);
+        }
+
+        .controls {
+            margin-top: 40px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            background: #cc5500;
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button:hover {
+            background: #ff6600;
+            box-shadow: 0 4px 16px rgba(204, 85, 0, 0.5);
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #cc5500;
+            min-height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="description">
+            <h1>10 Minute Presentations</h1>
+            <p>Welcome to our rapid-fire presentation session. Each speaker has 10 minutes to share their insights. Stay tuned for the next presentation!</p>
+        </div>
+
+        <div class="time-section">
+            <div class="time-label">Current Time</div>
+            <div class="current-time" id="currentTime">00:00:00</div>
+        </div>
+
+        <div class="countdown-section">
+            <div class="countdown-label">Next Session Starts In</div>
+            <div class="countdown" id="countdown">10:00</div>
+        </div>
+
+        <div class="controls">
+            <button onclick="startCountdown()">Start 10 Min Timer</button>
+            <button onclick="resetCountdown()">Reset</button>
+            <button onclick="pauseCountdown()">Pause</button>
+        </div>
+
+        <div class="status" id="status"></div>
+    </div>
+
+    <script>
+        let countdownInterval;
+        let timeRemaining = 600; // 10 minutes in seconds
+        let isPaused = false;
+        let endTime = null;
+
+        function updateCurrentTime() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('currentTime').textContent = `${hours}:${minutes}:${seconds}`;
+        }
+
+        function updateCountdown() {
+            if (!isPaused && timeRemaining > 0) {
+                timeRemaining--;
+                displayCountdown();
+
+                if (timeRemaining === 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('status').textContent = '🔔 Time to start!';
+                    playNotification();
+                }
+            }
+        }
+
+        function displayCountdown() {
+            const minutes = Math.floor(timeRemaining / 60);
+            const seconds = timeRemaining % 60;
+            document.getElementById('countdown').textContent = 
+                `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function startCountdown() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            
+            if (timeRemaining === 0) {
+                timeRemaining = 600;
+            }
+            
+            isPaused = false;
+            endTime = new Date(Date.now() + timeRemaining * 1000);
+            document.getElementById('status').textContent = 'Timer running...';
+            
+            countdownInterval = setInterval(updateCountdown, 1000);
+        }
+
+        function resetCountdown() {
+            if (countdownInterval) {
+                clearInterval(countdownInterval);
+            }
+            timeRemaining = 600;
+            isPaused = false;
+            displayCountdown();
+            document.getElementById('status').textContent = '';
+        }
+
+        function pauseCountdown() {
+            isPaused = !isPaused;
+            document.getElementById('status').textContent = isPaused ? 'Timer paused' : 'Timer running...';
+        }
+
+        function playNotification() {
+            // Visual notification only (no audio API needed)
+            const countdown = document.getElementById('countdown');
+            countdown.style.color = '#cc5500';
+            setTimeout(() => {
+                countdown.style.color = '#ffffff';
+            }, 500);
+        }
+
+        // Update current time every second
+        setInterval(updateCurrentTime, 1000);
+        updateCurrentTime();
+        displayCountdown();
+    </script>
+</body>
+</html>
