@@ -196,7 +196,7 @@
             }
             
             if (timeRemaining === 0) {
-                timeRemaining = 600;
+                timeRemaining = 15*60;
             }
             
             isPaused = false;
@@ -210,7 +210,7 @@
             if (countdownInterval) {
                 clearInterval(countdownInterval);
             }
-            timeRemaining = 600;
+            timeRemaining = 15*60;
             isPaused = false;
             displayCountdown();
             document.getElementById('status').textContent = '';
