@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: #1a1a1a;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    width: 100%;
+    background: #0a0a0a;
+    border: 3px solid #100046;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 8px 32px rgba(3, 0, 42, 0.3);
+}
+
+.description {
+    text-align: center;
+    margin-bottom: 40px;
+    padding-bottom: 30px;
+    border-bottom: 2px solid #100046;
+}
+
+.description h1 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    color: #100046;
+}
+
+.description p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #cccccc;
+}
+
+.time-section {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.time-label {
+    font-size: 1.2em;
+    color: #100046;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.current-time {
+    font-size: 4em;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.countdown-section {
+    text-align: center;
+}
+
+.countdown-label {
+    font-size: 1.4em;
+    color: #100046;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.countdown {
+    font-size: 5em;
+    font-weight: bold;
+    color: #ffffff;
+    font-variant-numeric: tabular-nums;
+    text-shadow: 0 0 20px rgba(0, 41, 204, 0.5);
+}
+
+.controls {
+    margin-top: 40px;
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+button {
+    background: #100046;
+    color: #ffffff;
+    border: none;
+    padding: 15px 30px;
+    font-size: 1.1em;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+button:hover {
+    background: #0066ff;
+    box-shadow: 0 4px 16px rgba(0, 41, 204, 0.5);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.status {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #100046;
+    min-height: 30px;
+}
