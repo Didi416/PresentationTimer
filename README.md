@@ -1,2 +1,2 @@
 # PresentationTimer
-presentation timer for CIC
+presentation timer for CIC (and other things)
